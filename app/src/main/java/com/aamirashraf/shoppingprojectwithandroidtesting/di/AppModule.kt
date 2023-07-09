@@ -2,10 +2,13 @@ package com.aamirashraf.shoppingprojectwithandroidtesting.di
 
 import android.content.Context
 import androidx.room.Room
+import com.aamirashraf.shoppingprojectwithandroidtesting.data.local.ShoppingDao
 import com.aamirashraf.shoppingprojectwithandroidtesting.data.local.ShoppingItemDatabase
 import com.aamirashraf.shoppingprojectwithandroidtesting.data.remote.PixelbayApi
 import com.aamirashraf.shoppingprojectwithandroidtesting.others.Constants.BASE_URL
 import com.aamirashraf.shoppingprojectwithandroidtesting.others.Constants.DATA_BASE_NAME
+import com.aamirashraf.shoppingprojectwithandroidtesting.repositories.DefaultShoppingRepository
+import com.aamirashraf.shoppingprojectwithandroidtesting.repositories.ShoppingRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,4 +45,11 @@ object AppModule {
             .create(PixelbayApi::class.java)
 
     }
+
+    @Singleton
+    @Provides
+    fun provideDefaultShoppingRepository(
+        dao:ShoppingDao,
+        api:PixelbayApi
+    ) = DefaultShoppingRepository(dao,api) as ShoppingRepository
 }
